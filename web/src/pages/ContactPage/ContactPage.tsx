@@ -1,27 +1,58 @@
 import {
   Form,
   FieldError,
+  FormError,
   Label,
   TextField,
   TextAreaField,
+  useForm,
   Submit,
   SubmitHandler,
 } from '@redwoodjs/forms'
-import { Metadata } from '@redwoodjs/web'
+import { Metadata, useMutation } from '@redwoodjs/web'
+import { toast, Toaster } from '@redwoodjs/web/dist/toast'
+import {
+  CreateContactMutation,
+  CreateContactMutationVariables,
+} from 'types/graphql'
 
 interface FormValues {
-  input: string
+  name: string
+  email: string
+  message: string
 }
 
-const ContactPage = () => {
-  const onSubmit: SubmitHandler<FormValues> = (data) => {
-    console.log(data)
+const CREATE_CONTACT = gql`
+  mutation CreateContactMutation($input: CreateContactInput!) {
+    createContact(input: $input) {
+      id
+    }
   }
+`
+
+const ContactPage = () => {
+  const formMethods = useForm({ mode: 'onBlur' })
+  const [create, { loading, error }] = useMutation<
+    CreateContactMutation,
+    CreateContactMutationVariables
+  >(CREATE_CONTACT, {
+    onCompleted: () => {
+      toast.success('Thank you for your submission!')
+      formMethods.reset()
+    },
+  })
+
+  const onSubmit: SubmitHandler<FormValues> = (data) => {
+    create({ variables: { input: data } })
+  }
+
   return (
     <>
       <Metadata title="Contact" description="Contact page" />
 
-      <Form onSubmit={onSubmit} config={{ mode: 'onBlur' }}>
+      <Toaster />
+      <Form onSubmit={onSubmit} config={{ mode: 'onBlur' }} error={error}>
+        <FormError error={error} wrapperClassName='form-error' />
         <Label name="name" errorClassName="error">
           Name
         </Label>
@@ -58,7 +89,7 @@ const ContactPage = () => {
         />
         <FieldError name="message" className="error" />
 
-        <Submit>Save</Submit>
+        <Submit disabled={loading}>Save</Submit>
       </Form>
     </>
   )
