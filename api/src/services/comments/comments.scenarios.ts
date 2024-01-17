@@ -9,10 +9,11 @@ export const standard = defineScenario<Prisma.CommentCreateArgs>({
         post: {
           create: {
             title: 'Redwood Leaves',
-            body: 'The quick brown fox jumped over the lazy dog.'
-          }
-        }
-      }
+            body: 'The quick brown fox jumped over the lazy dog.',
+            user: {},
+          },
+        },
+      },
     },
     john: {
       data: {
@@ -22,11 +23,12 @@ export const standard = defineScenario<Prisma.CommentCreateArgs>({
           create: {
             title: 'Root Systems',
             body: 'The five boxing wizards jump quickly.',
-          }
-        }
-      }
-    }
-  }
+            user: {},
+          },
+        },
+      },
+    },
+  },
 })
 
 export const postOnly = defineScenario<Prisma.PostCreateArgs>({
@@ -35,9 +37,10 @@ export const postOnly = defineScenario<Prisma.PostCreateArgs>({
       data: {
         title: 'Bark',
         body: "A tree's bark is worse than its bite",
-      }
-    }
-  }
+        user: {},
+      },
+    },
+  },
 })
 
 export type StandardScenario = typeof standard

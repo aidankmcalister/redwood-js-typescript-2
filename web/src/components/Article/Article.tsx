@@ -3,8 +3,6 @@ import { Link, routes } from '@redwoodjs/router'
 import CommentForm from 'src/components/CommentForm'
 import CommentsCell from 'src/components/CommentsCell'
 
-import type { Post } from 'types/graphql'
-
 const truncate = (text: string, length: number) => {
   return text.substring(0, length) + '...'
 }
@@ -13,11 +11,14 @@ const Article = ({ article, summary = false }) => {
   return (
     <article>
       <header>
-        <h2 className="text-xl text-blue-700 font-semibold">
+        <h2 className="text-xl font-semibold text-blue-700">
           <Link to={routes.article({ id: article.id })}>{article.title}</Link>
+          <span className="ml-2 text-lg font-normal text-gray-400">
+            by {article.user.name}
+          </span>
         </h2>
       </header>
-      <div className="mt-2 text-gray-900 font-light">
+      <div className="mt-2 font-light text-gray-900">
         {summary ? truncate(article.body, 100) : article.body}
       </div>
       {!summary && (
@@ -33,3 +34,24 @@ const Article = ({ article, summary = false }) => {
 }
 
 export default Article
+
+// import { Link, routes } from '@redwoodjs/router'
+
+// const Article = ({ article }) => {
+//   return (
+//     <article>
+//       <header>
+//         <h2 className="text-xl font-semibold text-blue-700">
+//           <Link to={routes.article({ id: article.id })}>{article.title}</Link>
+//           <span className="ml-2 font-normal text-gray-400">
+//             by {article.user.name}
+//           </span>
+//         </h2>
+//       </header>
+
+//       <div className="mt-2 font-light text-gray-900">{article.body}</div>
+//     </article>
+//   )
+// }
+
+// export default Article

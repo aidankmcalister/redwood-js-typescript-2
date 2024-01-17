@@ -1,6 +1,8 @@
 import type { FindArticleQuery, FindArticleQueryVariables } from 'types/graphql'
-import Article from 'src/components/Article'
+
 import type { CellSuccessProps, CellFailureProps } from '@redwoodjs/web'
+
+import Article from 'src/components/Article'
 
 export const QUERY = gql`
   query FindArticleQuery($id: Int!) {
@@ -9,6 +11,9 @@ export const QUERY = gql`
       title
       body
       createdAt
+      user {
+        name
+      }
     }
   }
 `

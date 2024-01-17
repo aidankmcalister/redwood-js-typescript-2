@@ -1,4 +1,5 @@
 import type { QueryResolvers, CommentRelationResolvers } from 'types/graphql'
+
 import { requireAuth } from 'src/lib/auth'
 import { db } from 'src/lib/db'
 

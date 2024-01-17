@@ -3,7 +3,6 @@ import { AuthenticationError, ForbiddenError } from '@redwoodjs/graphql-server'
 import { db } from 'src/lib/db'
 
 import { comments, createComment, deleteComment } from './comments'
-
 import type { PostOnlyScenario, StandardScenario } from './comments.scenarios'
 
 describe('comments', () => {
